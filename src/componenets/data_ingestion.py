@@ -5,7 +5,13 @@ from logger import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from data_transformation import DataTransformation
+from data_transformation import DataTransformationConfig
 from dataclasses import dataclass
+
+from model_trainer import ModelTrainer
+from model_trainer import ModelTrainerConfig
+
 #used to create class variables without init
 @dataclass
 class DataIngestionConfig:
@@ -42,4 +48,10 @@ class DataIngestion:
 
 if __name__=="__main__":
     odj = DataIngestion()
-    odj.initiate_data_ingestion()
+    train_data,test_data=odj.initiate_data_ingestion()
+
+    data_transformation=DataTransformation()
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+
+    modeltrainer=ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
